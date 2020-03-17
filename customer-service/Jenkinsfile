@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+        stage('Package') {
+            steps {
+                sh 'docker build -t customer-service .'
+            }
+        }
+        stage('Publish') {
+            steps {
+                echo 'Pushing docker image to AWS ECR'
+            }
+        }
+    }
+}

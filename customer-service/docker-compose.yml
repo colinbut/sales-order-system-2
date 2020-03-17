@@ -1,0 +1,23 @@
+version: "3"
+services:
+  customer-service:
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - customer-mysql
+    depends_on:
+      - customer-db-mysql
+
+  customer-db-mysql:
+    image: mysql:8
+    ports:
+    - "3306:3306"
+    networks:
+      - customer-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=customerdb
+
+networks:
+  customer-mysql:
