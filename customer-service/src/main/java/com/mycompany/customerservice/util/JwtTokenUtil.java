@@ -9,9 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenUtil implements Serializable {
@@ -26,9 +27,9 @@ public class JwtTokenUtil implements Serializable {
         return username.equals(userDetails.getUsername()) && isTokenNotExpired(token);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        Claims claims = Jwts.claims().setSubject(userDetails.getUsername());
-        claims.put("scopes", Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN")));
+    public String generateToken(UserDetails userDetails, List<String> roles) {
+        Claims claims = Jwts.claims();
+        claims.put("scopes", roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())

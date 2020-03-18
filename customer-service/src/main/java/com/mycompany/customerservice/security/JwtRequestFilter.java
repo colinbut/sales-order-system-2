@@ -2,10 +2,15 @@ package com.mycompany.customerservice.security;
 
 import com.mycompany.customerservice.service.JwtUserDetailsService;
 import com.mycompany.customerservice.util.JwtTokenUtil;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -17,6 +22,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
@@ -28,6 +37,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    private String secret;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
@@ -49,6 +60,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
             boolean isTokenValid = jwtTokenUtil.validateToken(jwtToken, userDetails);
             if (isTokenValid) {
+
+                Jws<Claims> claims = Jwts.parser()
+                        .requireIssuer("Sales Order System")
+                        .setSigningKey(secret)
+                        .parseClaimsJws(jwtToken);
+
+                String user = claims.getBody().get("usr", String.class);
+                String roles = claims.getBody().get("rol", String.class);
+                List<GrantedAuthority> grantedAuthorities = Arrays.stream(roles.split(","))
+                .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
                 );

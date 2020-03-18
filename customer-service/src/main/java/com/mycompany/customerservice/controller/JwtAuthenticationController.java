@@ -33,7 +33,7 @@ public class JwtAuthenticationController {
                 ));
 
         UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        String jwtToken = jwtTokenUtil.generateToken(userDetails);
+        String jwtToken = jwtTokenUtil.generateToken(userDetails, authenticationRequest.getRoles());
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
