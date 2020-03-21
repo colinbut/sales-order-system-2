@@ -3,6 +3,7 @@ package com.mycompany.userservice.controller;
 import com.mycompany.userservice.controller.rest.LoginRequest;
 import com.mycompany.userservice.controller.rest.JwtResponse;
 import com.mycompany.userservice.controller.rest.SignupRequest;
+import com.mycompany.userservice.exception.PasswordNotMatchException;
 import com.mycompany.userservice.service.JwtUserDetailsService;
 import com.mycompany.userservice.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,10 @@ public class JwtAuthenticationController {
     @PostMapping("/authenticate")
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody @Valid LoginRequest loginRequest){
         UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(loginRequest.getUsername());
+
         String passwordCrypted = bCryptPasswordEncoder.encode(loginRequest.getPassword());
         if (!userDetails.getPassword().equals(passwordCrypted)) {
-            throw new RuntimeException("Password doesn't match");
+            throw new PasswordNotMatchException("Password doesn't match");
         }
 
         String jwtToken = jwtTokenUtil.generateToken(userDetails);

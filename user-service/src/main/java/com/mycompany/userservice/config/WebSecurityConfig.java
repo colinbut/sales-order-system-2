@@ -1,7 +1,5 @@
 package com.mycompany.userservice.config;
 
-import com.mycompany.userservice.security.JwtAuthenticationEntryPoint;
-import com.mycompany.userservice.security.JwtRequestFilter;
 import com.mycompany.userservice.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
@@ -19,13 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
-    @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
-
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
 
     @Bean
     @Override
@@ -38,11 +30,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Autowired
-    public void globalUserDetails(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(jwtUserDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder());
-    }
+//    @Autowired
+//    public void globalUserDetails(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+//        authenticationManagerBuilder.userDetailsService(jwtUserDetailsService)
+//                .passwordEncoder(bCryptPasswordEncoder());
+//    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
