@@ -4,15 +4,12 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenUtil implements Serializable {
@@ -27,9 +24,9 @@ public class JwtTokenUtil implements Serializable {
         return username.equals(userDetails.getUsername()) && isTokenNotExpired(token);
     }
 
-    public String generateToken(UserDetails userDetails, List<String> roles) {
+    public String generateToken(UserDetails userDetails) {
         Claims claims = Jwts.claims();
-        claims.put("scopes", roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+        claims.put("scopes", userDetails.getAuthorities());
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
