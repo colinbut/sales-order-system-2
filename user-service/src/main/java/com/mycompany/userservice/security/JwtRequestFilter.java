@@ -1,7 +1,7 @@
-package com.mycompany.customerservice.security;
+package com.mycompany.userservice.security;
 
-import com.mycompany.customerservice.service.JwtUserDetailsService;
-import com.mycompany.customerservice.util.JwtTokenUtil;
+import com.mycompany.userservice.service.JwtUserDetailsService;
+import com.mycompany.userservice.util.JwtTokenUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
