@@ -1,12 +1,27 @@
 package com.mycompany.userservice.controller.rest;
 
+import javax.validation.constraints.*;
 import java.util.List;
 
 public class SignupRequest {
+
+    @NotNull
+    @NotBlank
+    @NotEmpty
     private String name;
+
+    @Email
     private String email;
+
+    @NotNull
+    @NotBlank
+    @NotEmpty
+    @Size(min = 8, max = 16)
     private String username;
+
+    @Size(min = 8, max = 16)
     private String password;
+
     private List<String> roles;
 
     public String getName() {
