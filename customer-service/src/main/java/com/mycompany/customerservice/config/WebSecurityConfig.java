@@ -50,7 +50,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         String[] authWhitelist = {
-                "/authenticate",
                 "/actuator/**",
                 "/v2/api-docs",
                 "/swagger-resources",

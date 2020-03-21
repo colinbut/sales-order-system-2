@@ -2,22 +2,16 @@ package com.mycompany.customerservice.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenUtil implements Serializable {
-
-    private static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -25,19 +19,6 @@ public class JwtTokenUtil implements Serializable {
     public Boolean validateToken(String token, UserDetails userDetails) {
         String username = getUsernameFromToken(token);
         return username.equals(userDetails.getUsername()) && isTokenNotExpired(token);
-    }
-
-    public String generateToken(UserDetails userDetails, List<String> roles) {
-        Claims claims = Jwts.claims();
-        claims.put("scopes", roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setIssuer("Sales Order System")
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-                .signWith(SignatureAlgorithm.HS512, secret)
-                .compact();
     }
 
     public Date getExpirationDateFromToken(String token) {

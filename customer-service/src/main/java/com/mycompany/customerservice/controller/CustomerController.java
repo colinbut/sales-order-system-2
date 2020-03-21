@@ -8,13 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
 
-    private Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -25,7 +26,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    public void createCustomer(@RequestBody Customer customer){
+    public void createCustomer(@RequestBody @Valid Customer customer){
         LOGGER.info("Creating customer: {}", customer);
         customerRepository.save(customer);
     }
