@@ -4,7 +4,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
 
 public class LoginRequest implements Serializable {
 
@@ -17,8 +16,6 @@ public class LoginRequest implements Serializable {
     @NotEmpty
     @NotBlank
     private String password;
-    
-    private List<String> roles;
 
     public String getUsername() {
         return username;
@@ -34,13 +31,5 @@ public class LoginRequest implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
     }
 }

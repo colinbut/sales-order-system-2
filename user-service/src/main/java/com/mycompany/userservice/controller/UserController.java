@@ -3,13 +3,12 @@ package com.mycompany.userservice.controller;
 import com.mycompany.userservice.dto.UserDto;
 import com.mycompany.userservice.model.User;
 import com.mycompany.userservice.repository.UserRepository;
+import com.mycompany.userservice.util.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class UserController {
@@ -25,13 +24,7 @@ public class UserController {
     @GetMapping("/user")
     public ResponseEntity<UserDto> getUsersByUsername(@RequestParam(value = "username") String username) {
         User user = userRepository.findByUsername(username);
-        UserDto userDto = new UserDto();
-        userDto.setName(user.getName());
-        userDto.setUsername(user.getUsername());
-        userDto.setPassword(user.getPassword());
-        userDto.setEmail(user.getEmail());
-        userDto.setRoles(Arrays.stream(user.getRoles().split(",")).collect(Collectors.toList()));
-
+        UserDto userDto = UserMapper.mapUserToUserDto(user);
         return ResponseEntity.ok(userDto);
     }
 }

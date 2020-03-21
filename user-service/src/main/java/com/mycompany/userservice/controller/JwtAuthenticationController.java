@@ -7,8 +7,8 @@ import com.mycompany.userservice.service.JwtUserDetailsService;
 import com.mycompany.userservice.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,17 +21,22 @@ import javax.validation.Valid;
 public class JwtAuthenticationController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @PostMapping("/authenticate")
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody @Valid LoginRequest loginRequest){
         UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(loginRequest.getUsername());
+        String passwordCrypted = bCryptPasswordEncoder.encode(loginRequest.getPassword());
+        if (!userDetails.getPassword().equals(passwordCrypted)) {
+            throw new RuntimeException("Password doesn't match");
+        }
+
         String jwtToken = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(jwtToken));

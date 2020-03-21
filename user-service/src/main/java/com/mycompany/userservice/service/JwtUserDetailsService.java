@@ -34,7 +34,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     public void saveNewUser(String name, String username, String password, String email, List<String> roles){
         User existingUser = userRepository.findByUsername(username);
         if (existingUser != null) {
-            throw new RuntimeException("");
+            throw new RuntimeException("Username " + username + " already exists!");
         }
         User user = new User();
         user.setName(name);
