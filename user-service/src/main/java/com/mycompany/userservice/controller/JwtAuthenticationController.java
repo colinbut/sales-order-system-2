@@ -34,8 +34,7 @@ public class JwtAuthenticationController {
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody @Valid LoginRequest loginRequest){
         UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(loginRequest.getUsername());
 
-        String passwordCrypted = bCryptPasswordEncoder.encode(loginRequest.getPassword());
-        if (!userDetails.getPassword().equals(passwordCrypted)) {
+        if (!bCryptPasswordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword())) {
             throw new PasswordNotMatchException("Password doesn't match");
         }
 
