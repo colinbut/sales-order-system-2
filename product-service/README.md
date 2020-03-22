@@ -1,5 +1,17 @@
 # Product Service
 
+## Technologies
+
+- Java 8
+- Spring:
+    - Spring Boot
+    - Spring Data Redis
+    - Spring Security
+- Redis
+- Swagger
+- Docker:
+    - Docker Compose
+    
 ## Running using Docker (Separately)
 
 ```bash

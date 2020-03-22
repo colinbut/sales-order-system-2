@@ -7,6 +7,7 @@
     - Spring Boot
     - Spring Data JPA
     - Spring Security
+- MySQL
 - Swagger
 - Docker:
     - Docker Compose
