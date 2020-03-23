@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
 
 const useStyles = makeStyles(theme => ({
     toolbar: {
@@ -19,7 +20,14 @@ const Customers = () => {
         <Fragment>
             <div className={classes.toolbar}/>
             <div>
-                <Button variant="contained" color="primary" component={Link} to="/customer-form">Create Customer</Button>
+                <Button 
+                    variant="contained" 
+                    color="primary" 
+                    component={Link} 
+                    startIcon={<GroupAddIcon/>}
+                    to="/customer-form">
+                    Create Customer
+                </Button>
             </div>
         </Fragment>
     )

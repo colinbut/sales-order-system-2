@@ -57,7 +57,7 @@ const ItemForm = () => {
                             <Form.Group as={Col} md="9" controlId="name">
                                 <Form.Control required 
                                     name="firstName" 
-                                    value={values.name || ''}
+                                    value={values.name}
                                     onBlur={handleBlur} 
                                     onChange={handleChange} 
                                     isValid={touched.name && !errors.name} 
@@ -67,7 +67,7 @@ const ItemForm = () => {
                         </Form.Row>
                         <Form.Row>
                             <Form.Group as={Col} md="6">
-                                <Form.Label>Price*</Form.Label>
+                                <Form.Label>Price (£)*</Form.Label>
                             </Form.Group>
                             <Form.Group as={Col} md="6" controlId="price">
                                 <Form.Control required 
@@ -80,6 +80,7 @@ const ItemForm = () => {
                                     type="text" />
                             </Form.Group>
                         </Form.Row>
+                        <Button variant="contained" color="default" type="reset">Reset</Button>
                         <Button variant="contained" color="secondary" type="submit">Create</Button>
                     </Form>
                     )}

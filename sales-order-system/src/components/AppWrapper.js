@@ -17,6 +17,12 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import { Link } from 'react-router-dom'
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
+import GroupIcon from '@material-ui/icons/Group'
+import InfoIcon from '@material-ui/icons/Info'
+import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import Tooltip from '@material-ui/core/Tooltip'
 
 const drawerWidth = 240;
 
@@ -84,10 +90,12 @@ const ListItemLink = (props) => {
     )
 
     return (
-        <ListItem button component={renderLink}>
-            <ListItemIcon>{icon}</ListItemIcon>
-            <ListItemText primary={text} />
-        </ListItem>
+        <Tooltip title={text} arrow>
+            <ListItem button component={renderLink}>
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={text} />
+            </ListItem>
+        </Tooltip>
     )
 }
 
@@ -149,13 +157,17 @@ export default function AppWrapper() {
                 </div>
                 <Divider />
                 <List>
-                    <ListItemLink text="Customers" icon={<InboxIcon/>} to="/customers"/>
-                    <ListItemLink text="Orders" icon={<MailIcon/>} to="/orders"/>
-                    <ListItemLink text="Items" icon={<InboxIcon/>} to="/items"/>
+                    <ListItemLink text="Customers" icon={<GroupIcon/>} to="/customers"/>
+                    <ListItemLink text="Orders" icon={<AddShoppingCartIcon/>} to="/orders"/>
+                    <ListItemLink text="Items" icon={<PhotoLibraryIcon/>} to="/items"/>
                 </List>
                 <Divider/>
                 <List>
-                    <ListItemLink text="About" icon={<MailIcon/>} to="/about"/>
+                    <ListItemLink text="About" icon={<InfoIcon/>} to="/about"/>
+                </List>
+                <Divider/>
+                <List>
+                    <ListItemLink text="Logout" icon={<ExitToAppIcon/>} to="/logout"/>
                 </List>
             </Drawer>
         </Fragment>
