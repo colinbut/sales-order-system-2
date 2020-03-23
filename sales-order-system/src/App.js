@@ -1,4 +1,5 @@
 import React from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import AppWrapper from './components/AppWrapper'
 import AppContent from './AppContent'
 import { BrowserRouter as Router} from 'react-router-dom'

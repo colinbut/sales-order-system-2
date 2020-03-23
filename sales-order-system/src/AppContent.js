@@ -1,6 +1,7 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router'
 import Customers from './components/Customers'
+import CustomerForm from './components/forms/CustomerForm'
 import Orders from './components/Orders'
 import Items from './components/Items'
 import About from './components/About'
@@ -20,6 +21,7 @@ const AppContent = () => {
         <main className={classes.content}>
             <Switch>
                 <Route path="/customers" component={Customers} />
+                <Route path="/customer-form" component={CustomerForm} />
                 <Route path="/orders" component={Orders} />
                 <Route path="/items" component={Items} />
                 <Route path="/about" component={About} />

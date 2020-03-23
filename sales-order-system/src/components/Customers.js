@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
-
+import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
     toolbar: {
@@ -18,7 +19,7 @@ const Customers = () => {
         <Fragment>
             <div className={classes.toolbar}/>
             <div>
-                Customers
+                <Button variant="contained" color="primary" component={Link} to="/customer-form">Create Customer</Button>
             </div>
         </Fragment>
     )
