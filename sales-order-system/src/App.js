@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import AppWrapper from './components/AppWrapper'
+import AppContent from './AppContent'
+import { BrowserRouter as Router} from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { makeStyles } from '@material-ui/core/styles'
 
-export default App;
+const useStyles = makeStyles(() => ({
+    root: {
+        display: 'flex'
+    }
+}))
+
+export default function App() {
+    const classes = useStyles()
+    return (
+        <Router>
+            <div className={classes.root}>
+                <AppWrapper />
+                <AppContent />
+            </div>
+        </Router>
+    )
+} 
