@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-
+import MaterialTable from 'material-table'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
@@ -12,13 +12,21 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
+const columns = [
+    {title: '#', field: 'id', type: 'numeric'},
+    {title: 'Customer', field: 'customer'},
+    {title: 'Address', field: 'address'}
+]
+
+const dummyData =[]
+
 const Orders = () => {
     const classes = useStyles()
     return (
         <Fragment>
             <div className={classes.toolbar}/>
-            <div>
-                Orders
+            <div style={{maxWidth:'100%'}}>
+                <MaterialTable title="Orders" columns={columns} data={dummyData} />
             </div>
         </Fragment>
     )

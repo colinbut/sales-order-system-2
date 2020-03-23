@@ -6,6 +6,7 @@ import Orders from './components/Orders'
 import Items from './components/Items'
 import ItemForm from './components/forms/ItemForm'
 import About from './components/About'
+import Customer from './components/Customer'
 
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -21,6 +22,7 @@ const AppContent = () => {
     return (
         <main className={classes.content}>
             <Switch>
+                <Route path="/customers/:customerId" component={Customer} />
                 <Route path="/customers" component={Customers} />
                 <Route path="/customer-form" component={CustomerForm} />
                 <Route path="/orders" component={Orders} />
