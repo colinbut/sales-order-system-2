@@ -105,7 +105,7 @@ const CustomerForm = () => {
                                 onChange={handleChange} 
                                 isValid={touched.dateOfBirth && !errors.dateOfBirth} 
                                 isInvalid={!!errors.dateOfBirth}
-                                type="text"  />
+                                type="date"  />
                         </Form.Group>
                     </Form.Row>
                     <Form.Row>
