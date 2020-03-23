@@ -2,9 +2,9 @@ import React, { Fragment } from 'react'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import MaterialTable from 'material-table'
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import { BACKEND_SERVICE_URLS } from '../Config.js'
 
 const useStyles = makeStyles(theme => ({
     toolbar: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 
 const Customer = props => {
     const classes = useStyles()
-    console.log(props.history.location.state)
+    //console.log(props.history.location.state)
     let customer = props.history.location.state.customer
 
     const columns = [
@@ -26,6 +26,8 @@ const Customer = props => {
         {title: 'Customer', field: 'customer'},
         {title: 'Address', field: 'address'}
     ]
+
+    console.log('making call to: ' + BACKEND_SERVICE_URLS['order_service'])
 
     const dummyData = []
 
