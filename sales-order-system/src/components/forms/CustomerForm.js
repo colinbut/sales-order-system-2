@@ -21,14 +21,17 @@ const useStyles = makeStyles(theme => ({
 const schema = Yup.object({
     firstName: Yup.string().required(),
     lastName: Yup.string().required(),
-    dateOfBirth: Yup.string().required(),
+    dateOfBirth: Yup.date().required(),
     email: Yup.string().email().required(),
     houseFlatNo: Yup.number().required(),
     addressLine1: Yup.string().required(),
     addressLine2: Yup.string().required(),
     postcode: Yup.string().required(),
     city: Yup.string().required(),
-    county: Yup.string().required()
+    county: Yup.string().required(),
+    cardNo: Yup.string(),
+    cardExpDate: Yup.date(),
+    customerReference: Yup.string()
 })  
 
 const submitForm = () => {
@@ -43,7 +46,7 @@ const CustomerForm = () => {
             <div className={classes.toolbar}/>
             <div className="contact-page-container-wrapper">
                 <h2 className="contact-form-heading">
-                    Create Customer
+                    Contact Details
                 </h2>
                 <Formik validationSchema={schema} onSubmit={submitForm} 
                     initialValues={{
@@ -78,10 +81,10 @@ const CustomerForm = () => {
                         </Form.Group>
                     </Form.Row>
                     <Form.Row>
-                        <Form.Group as={Col} md="6">
+                        <Form.Group as={Col} md="3">
                             <Form.Label>Last Name*</Form.Label>
                         </Form.Group>
-                        <Form.Group as={Col} md="6" controlId="lastName">
+                        <Form.Group as={Col} md="9" controlId="lastName">
                             <Form.Control required 
                                 name="lastName" 
                                 value={values.lastName} 
@@ -93,10 +96,10 @@ const CustomerForm = () => {
                         </Form.Group>
                     </Form.Row>
                     <Form.Row>
-                        <Form.Group as={Col} md="6" >
+                        <Form.Group as={Col} md="3" >
                             <Form.Label>Date Of Birth*</Form.Label>
                         </Form.Group>
-                        <Form.Group as={Col} md="6" controlId="formDateOfBirth">
+                        <Form.Group as={Col} md="9" controlId="formDateOfBirth">
                             <Form.Control 
                                 required 
                                 name="dateOfBirth" 
@@ -109,10 +112,10 @@ const CustomerForm = () => {
                         </Form.Group>
                     </Form.Row>
                     <Form.Row>
-                        <Form.Group as={Col} md="6" >
+                        <Form.Group as={Col} md="3" >
                             <Form.Label>Email*</Form.Label>
                         </Form.Group>
-                        <Form.Group as={Col} md="6" controlId="formGridEmail">
+                        <Form.Group as={Col} md="9" controlId="formGridEmail">
                             <Form.Control 
                                 required 
                                 name="email" 
@@ -125,10 +128,10 @@ const CustomerForm = () => {
                         </Form.Group>
                     </Form.Row>
                     <Form.Row>
-                        <Form.Group as={Col} md="6">
+                        <Form.Group as={Col} md="3">
                             <Form.Label>Address Line 1*</Form.Label>
                         </Form.Group>
-                        <Form.Group as={Col} md="6" controlId="addressLine1">
+                        <Form.Group as={Col} md="9" controlId="addressLine1">
                             <Form.Control required 
                                 name="addressLine1" 
                                 value={values.addressLine1} 
@@ -140,10 +143,10 @@ const CustomerForm = () => {
                         </Form.Group>
                     </Form.Row>
                     <Form.Row>
-                        <Form.Group as={Col} md="6">
+                        <Form.Group as={Col} md="3">
                             <Form.Label>Address Line 2*</Form.Label>
                         </Form.Group>
-                        <Form.Group as={Col} md="6" controlId="addressLine2">
+                        <Form.Group as={Col} md="9" controlId="addressLine2">
                             <Form.Control required 
                                 name="addressLine2" 
                                 value={values.addressLine2} 
@@ -155,10 +158,10 @@ const CustomerForm = () => {
                         </Form.Group>
                     </Form.Row>
                     <Form.Row>
-                        <Form.Group as={Col} md="6">
+                        <Form.Group as={Col} md="3">
                             <Form.Label>Postcode*</Form.Label>
                         </Form.Group>
-                        <Form.Group as={Col} md="6" controlId="postcode">
+                        <Form.Group as={Col} md="9" controlId="postcode">
                             <Form.Control required 
                                 name="postcode" 
                                 value={values.postcode} 
@@ -170,10 +173,10 @@ const CustomerForm = () => {
                         </Form.Group>
                     </Form.Row>
                     <Form.Row>
-                        <Form.Group as={Col} md="6">
+                        <Form.Group as={Col} md="3">
                             <Form.Label>City*</Form.Label>
                         </Form.Group>
-                        <Form.Group as={Col} md="6" controlId="city">
+                        <Form.Group as={Col} md="9" controlId="city">
                             <Form.Control required 
                                 name="city" 
                                 value={values.city} 
@@ -185,10 +188,10 @@ const CustomerForm = () => {
                         </Form.Group>
                     </Form.Row>
                     <Form.Row>
-                        <Form.Group as={Col} md="6">
+                        <Form.Group as={Col} md="3">
                             <Form.Label>County*</Form.Label>
                         </Form.Group>
-                        <Form.Group as={Col} md="6" controlId="county">
+                        <Form.Group as={Col} md="9" controlId="county">
                             <Form.Control required 
                                 name="county" 
                                 value={values.county} 
@@ -196,6 +199,54 @@ const CustomerForm = () => {
                                 onChange={handleChange} 
                                 isValid={touched.county && !errors.county} 
                                 isInvalid={!!errors.county}
+                                type="text" />
+                        </Form.Group>
+                    </Form.Row>
+                    <h2 className="contact-form-heading">
+                        Payment Details
+                    </h2>
+                    <Form.Row>
+                        <Form.Group as={Col} md="3">
+                            <Form.Label>Card No.</Form.Label>
+                        </Form.Group>
+                        <Form.Group as={Col} md="9" controlId="cardNo">
+                            <Form.Control 
+                                name="cardNo" 
+                                value={values.cardNo} 
+                                onBlur={handleBlur}
+                                onChange={handleChange} 
+                                isValid={touched.cardNo && !errors.cardNo} 
+                                isInvalid={!!errors.cardNo}
+                                type="text" />
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Group as={Col} md="3">
+                            <Form.Label>Card Exp Date</Form.Label>
+                        </Form.Group>
+                        <Form.Group as={Col} md="9" controlId="cardExpDate">
+                            <Form.Control 
+                                name="cardExpDate" 
+                                value={values.cardExpDate} 
+                                onBlur={handleBlur}
+                                onChange={handleChange} 
+                                isValid={touched.cardExpDate && !errors.cardExpDate} 
+                                isInvalid={!!errors.cardExpDate}
+                                type="date" />
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Group as={Col} md="3">
+                            <Form.Label>Customer Reference</Form.Label>
+                        </Form.Group>
+                        <Form.Group as={Col} md="9" controlId="customerReference">
+                            <Form.Control 
+                                name="customerReference" 
+                                value={values.customerReference} 
+                                onBlur={handleBlur}
+                                onChange={handleChange} 
+                                isValid={touched.customerReference && !errors.customerReference} 
+                                isInvalid={!!errors.customerReference}
                                 type="text" />
                         </Form.Group>
                     </Form.Row>

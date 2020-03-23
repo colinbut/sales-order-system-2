@@ -51,10 +51,10 @@ const ItemForm = () => {
                     }) => (
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Row>
-                            <Form.Group as={Col} md="3">
+                            <Form.Group as={Col} md="2">
                                 <Form.Label>Name*</Form.Label>
                             </Form.Group>
-                            <Form.Group as={Col} md="9" controlId="name">
+                            <Form.Group as={Col} md="10" controlId="name">
                                 <Form.Control required 
                                     name="firstName" 
                                     value={values.name}
@@ -66,10 +66,10 @@ const ItemForm = () => {
                             </Form.Group>
                         </Form.Row>
                         <Form.Row>
-                            <Form.Group as={Col} md="6">
+                            <Form.Group as={Col} md="2">
                                 <Form.Label>Price (£)*</Form.Label>
                             </Form.Group>
-                            <Form.Group as={Col} md="6" controlId="price">
+                            <Form.Group as={Col} md="10" controlId="price">
                                 <Form.Control required 
                                     name="price" 
                                     value={values.price} 
