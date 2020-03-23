@@ -18,7 +18,6 @@ const useStyles = makeStyles(theme => ({
 
 const Customer = props => {
     const classes = useStyles()
-    //console.log(props.history.location.state)
     let customer = props.history.location.state.customer
 
     const columns = [

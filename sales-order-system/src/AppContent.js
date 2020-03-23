@@ -7,6 +7,7 @@ import Items from './components/Items'
 import ItemForm from './components/forms/ItemForm'
 import About from './components/About'
 import Customer from './components/Customer'
+import OrderForm from './components/forms/OrderForm'
 
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -26,6 +27,7 @@ const AppContent = () => {
                 <Route path="/customers" component={Customers} />
                 <Route path="/customer-form" component={CustomerForm} />
                 <Route path="/orders" component={Orders} />
+                <Route path="/order-form" component={OrderForm} />
                 <Route path="/items" component={Items} />
                 <Route path="/item-form" component={ItemForm} />
                 <Route path="/about" component={About} />
