@@ -2,6 +2,7 @@ package com.mycompany.orderservice.controller;
 
 import com.mycompany.orderservice.entity.Order;
 import com.mycompany.orderservice.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.List;
 @RestController
 public class OrderController {
 
+    @Autowired
     private OrderRepository orderRepository;
 
     @GetMapping("/orders/list")

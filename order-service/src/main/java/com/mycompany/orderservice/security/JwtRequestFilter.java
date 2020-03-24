@@ -19,9 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -61,7 +59,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     private boolean validateToken(JwtAuthInfo authInfo){
-        return authInfo.getExpiryDate().before(new Date());
+        return !authInfo.getExpiryDate().before(new Date());
     }
 
     private String getJwtFromRequest(String requestHeader) {
@@ -79,10 +77,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 .setSigningKey(secret)
                 .parseClaimsJws(jwtToken);
         String user = claims.getBody().get("usr", String.class);
-        String roles = claims.getBody().get("rol", String.class);
-        List<GrantedAuthority> grantedAuthorities = Arrays.stream(roles.split(","))
+        List<LinkedHashMap<String, String>> roles = claims.getBody().get("scopes", ArrayList.class);
+
+        List<GrantedAuthority> grantedAuthorities = roles.stream()
+                .flatMap(x -> x.values().stream())
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+
+        LOGGER.debug("={}", grantedAuthorities);
 
         return new JwtAuthInfo(user, grantedAuthorities, claims.getBody().getExpiration());
     }
