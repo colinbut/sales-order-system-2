@@ -1,0 +1,19 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+    - "8083:8083"
+    networks:
+    - product-redis-network
+  redis:
+    image: redis
+    command: [ "redis-server", "--protected-mode", "no" ]
+    ports:
+    - "6379:6379"
+    networks:
+    - product-redis-network
+
+networks:
+  product-redis-network:
+    external: true
