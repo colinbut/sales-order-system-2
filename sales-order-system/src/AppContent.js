@@ -15,6 +15,13 @@ const useStyles = makeStyles(theme => ({
     content: {
         flexGrow: 1,
         padding: theme.spacing(3)
+    },
+    toolbar: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        padding: theme.spacing(0, 1),
+        ...theme.mixins.toolbar
     }
 }))
 
@@ -22,6 +29,7 @@ const AppContent = () => {
     const classes = useStyles()
     return (
         <main className={classes.content}>
+            <div className={classes.toolbar}/>
             <Switch>
                 <Route path="/customers/:customerId" component={Customer} />
                 <Route path="/customers" component={Customers} />
