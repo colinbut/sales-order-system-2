@@ -6,7 +6,10 @@ import com.mycompany.userservice.controller.rest.SignupRequest;
 import com.mycompany.userservice.exception.PasswordNotMatchException;
 import com.mycompany.userservice.service.JwtUserDetailsService;
 import com.mycompany.userservice.util.JwtTokenUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +23,8 @@ import javax.validation.Valid;
 @RestController
 @CrossOrigin
 public class JwtAuthenticationController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthenticationController.class);
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -39,12 +44,13 @@ public class JwtAuthenticationController {
         }
 
         String jwtToken = jwtTokenUtil.generateToken(userDetails);
+        LOGGER.info("Sending jwtToken back: {}", jwtToken);
 
         return ResponseEntity.ok(new JwtResponse(jwtToken));
     }
 
     @PostMapping("/signup")
-    public void createNewUser(@RequestBody @Valid SignupRequest signupRequest) {
+    public ResponseEntity createNewUser(@RequestBody @Valid SignupRequest signupRequest) {
         jwtUserDetailsService.saveNewUser(
                 signupRequest.getName(),
                 signupRequest.getUsername(),
@@ -52,6 +58,7 @@ public class JwtAuthenticationController {
                 signupRequest.getEmail(),
                 signupRequest.getRoles()
         );
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 }
