@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,9 +28,9 @@ public class UserPrincipal implements UserDetails {
     }
 
     public static UserPrincipal create(User user) {
-        List<GrantedAuthority> grantedAuthorities = Arrays.stream(user.getRoles().split(","))
+        List<GrantedAuthority> grantedAuthorities = user.getRoles() != null ? Arrays.stream(user.getRoles().split(","))
                 .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()) : Collections.emptyList();
         return new UserPrincipal(
                 (long) user.getId(),
                 user.getUsername(),

@@ -49,9 +49,7 @@ public class JwtUserDetailsServiceTest {
         String username = "colinbut";
         Mockito.when(userRepository.findByUsername(username)).thenReturn(null);
 
-        assertThrows(UsernameNotFoundException.class, () -> {
-            jwtUserDetailsService.loadUserByUsername(username);
-        });
+        assertThrows(UsernameNotFoundException.class, () -> jwtUserDetailsService.loadUserByUsername(username));
     }
 
     @Test
@@ -72,10 +70,8 @@ public class JwtUserDetailsServiceTest {
         String username = "colinbut";
         Mockito.when(userRepository.findByUsername(username)).thenReturn(createTestUser());
 
-        assertThrows(RuntimeException.class, () -> {
-            jwtUserDetailsService.saveNewUser("Colin But", username, "password1", "email.com",
-                    Collections.singletonList("ADMIN"));
-        });
+        assertThrows(RuntimeException.class, () -> jwtUserDetailsService.saveNewUser("Colin But",
+                username, "password1", "email.com", Collections.singletonList("ADMIN")));
     }
 
     private User createTestUser(){
