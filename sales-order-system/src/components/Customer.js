@@ -1,14 +1,16 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext } from 'react'
 import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
 import MaterialTable from 'material-table'
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import { BACKEND_SERVICE_URLS } from '../Config.js'
+import UserContext from '../state/UserContext'
 
 
 const Customer = props => {
     let customer = props.history.location.state.customer
-
+    let userContext = useContext(UserContext)
+    console.log("Context", userContext)
     const columns = [
         {title: '#', field: 'id', type: 'numeric'},
         {title: 'Customer', field: 'customer'},

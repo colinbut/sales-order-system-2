@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useMemo, forwardRef } from 'react'
+import React, { Fragment, useState, useMemo, forwardRef, useContext } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -21,6 +21,7 @@ import InfoIcon from '@material-ui/icons/Info'
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import Tooltip from '@material-ui/core/Tooltip'
+import UserContext from '../state/UserContext'
 
 const drawerWidth = 240;
 
@@ -100,6 +101,7 @@ const ListItemLink = (props) => {
 export default function AppWrapper() {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
+    const {setUser} = useContext(UserContext)
 
     const handleDrawerOpen = () => {
         setOpen(true)
@@ -165,7 +167,7 @@ export default function AppWrapper() {
                 </List>
                 <Divider/>
                 <List>
-                    <ListItemLink text="Logout" icon={<ExitToAppIcon/>} to="/logout"/>
+                    <ListItemLink text="Logout" icon={<ExitToAppIcon/>} to="/logout" onClick={() => setUser({isAuthenticated: false})}/>
                 </List>
             </Drawer>
         </Fragment>
