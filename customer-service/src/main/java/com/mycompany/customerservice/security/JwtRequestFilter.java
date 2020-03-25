@@ -1,18 +1,15 @@
 package com.mycompany.customerservice.security;
 
-import com.mycompany.customerservice.service.JwtUserDetailsService;
-import com.mycompany.customerservice.util.JwtTokenUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -22,8 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -31,12 +27,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtRequestFilter.class);
 
-    @Autowired
-    private JwtUserDetailsService jwtUserDetailsService;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
+    @Value("${jwt.secret}")
     private String secret;
 
     @Override
@@ -45,45 +36,55 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         String requestHeader = httpServletRequest.getHeader("Authorization");
         LOGGER.debug("RequestHeaderAuth: {}", requestHeader);
-        String username = null;
-        String jwtToken = null;
+        String jwtToken = getJwtFromRequest(requestHeader);
 
-        if (requestHeader != null && requestHeader.startsWith("Bearer")) {
-            jwtToken = requestHeader.replace("Bearer ", "");
-            username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-        } else {
-            LOGGER.warn("Couldn't find the bearer so will ignore the header: {}", requestHeader);
-        }
-
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
-            boolean isTokenValid = jwtTokenUtil.validateToken(jwtToken, userDetails);
+        if (jwtToken != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            JwtAuthInfo authInfo = parseJwtClaims(jwtToken);
+            boolean isTokenValid = validateToken(authInfo);
             if (isTokenValid) {
-
-                Jws<Claims> claims = Jwts.parser()
-                        .requireIssuer("Sales Order System")
-                        .setSigningKey(secret)
-                        .parseClaimsJws(jwtToken);
-
-                String user = claims.getBody().get("usr", String.class);
-                String roles = claims.getBody().get("rol", String.class);
-                List<GrantedAuthority> grantedAuthorities = Arrays.stream(roles.split(","))
-                .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
-
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities()
+                        "", null, authInfo.getGrantedAuthorities()
                 );
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                LOGGER.info("Authenticated User {} , setting security context", username);
+                LOGGER.info("Authenticated User {} , setting security context", authInfo.getUser());
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             } else {
-                LOGGER.warn("Token: {} not valid for user: {}", jwtToken, userDetails);
+                LOGGER.warn("Token: {} not valid for user: {}", jwtToken, authInfo.getUser());
             }
         } else {
-            LOGGER.warn("Username: {} is null or Security Context has no Authentication set", username);
+            LOGGER.warn("No JWT info in request or Security Context has no Authentication set");
         }
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
+    }
+
+    private boolean validateToken(JwtAuthInfo authInfo){
+        return !authInfo.getExpiryDate().before(new Date());
+    }
+
+    private String getJwtFromRequest(String requestHeader) {
+        if (requestHeader != null && requestHeader.startsWith("Bearer")) {
+            return requestHeader.replace("Bearer ", "");
+        } else {
+            LOGGER.warn("Couldn't find the bearer so will ignore the header: {}", requestHeader);
+            return null;
+        }
+    }
+
+    private JwtAuthInfo parseJwtClaims(String jwtToken) {
+        Jws<Claims> claims = Jwts.parser()
+                .requireIssuer("Sales Order System")
+                .setSigningKey(secret)
+                .parseClaimsJws(jwtToken);
+        String user = claims.getBody().get("usr", String.class);
+        List<LinkedHashMap<String, String>> roles = claims.getBody().get("scopes", ArrayList.class);
+
+        List<GrantedAuthority> grantedAuthorities = roles.stream()
+                .flatMap(x -> x.values().stream())
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+
+        LOGGER.debug("={}", grantedAuthorities);
+        return new JwtAuthInfo(user, grantedAuthorities, claims.getBody().getExpiration());
     }
 }

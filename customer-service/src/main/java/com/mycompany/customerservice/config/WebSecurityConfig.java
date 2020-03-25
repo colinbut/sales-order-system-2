@@ -2,7 +2,6 @@ package com.mycompany.customerservice.config;
 
 import com.mycompany.customerservice.security.JwtAuthenticationEntryPoint;
 import com.mycompany.customerservice.security.JwtRequestFilter;
-import com.mycompany.customerservice.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,9 +24,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Autowired
-    private JwtUserDetailsService jwtUserDetailsService;
-
-    @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
     @Bean
@@ -43,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void globalUserDetails(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(jwtUserDetailsService)
+        authenticationManagerBuilder.userDetailsService(s -> null)
                 .passwordEncoder(bCryptPasswordEncoder());
     }
 
