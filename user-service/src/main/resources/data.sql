@@ -1,1 +1,1 @@
-INSERT INTO users (name, username, password, email, roles) VALUES ('Colin But', 'colinbut', 'password', 'colin.but@outlook.com', 'ADMIN');
+INSERT INTO users (name, username, password, email, roles) VALUES ('Test User', 'testuser', 'testpassword', 'test.test@email.com', 'ADMIN');

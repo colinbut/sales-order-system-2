@@ -51,6 +51,7 @@ public class JwtAuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity createNewUser(@RequestBody @Valid SignupRequest signupRequest) {
+        LOGGER.info("Signing up new user: {}", signupRequest);
         jwtUserDetailsService.saveNewUser(
                 signupRequest.getName(),
                 signupRequest.getUsername(),
