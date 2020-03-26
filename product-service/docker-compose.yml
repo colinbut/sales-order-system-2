@@ -2,18 +2,22 @@ version: '3'
 services:
   web:
     build: .
+    container_name: product-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev # use dev profile when running in Docker Compose
     ports:
     - "8083:8083"
     networks:
-    - product-redis-network
-  redis:
+    - product-service-network
+  db:
     image: redis
+    container_name: product-service-redis
     command: [ "redis-server", "--protected-mode", "no" ]
     ports:
     - "6379:6379"
     networks:
-    - product-redis-network
+    - product-service-network
 
 networks:
-  product-redis-network:
-    external: true
+  product-service-network:
+    external: false

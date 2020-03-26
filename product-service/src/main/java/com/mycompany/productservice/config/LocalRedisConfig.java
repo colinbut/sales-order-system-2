@@ -2,17 +2,20 @@ package com.mycompany.productservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
 @Configuration
 @EnableRedisRepositories
-public class RedisConfig {
+@Profile("local")
+public class LocalRedisConfig {
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory(){
-        return new LettuceConnectionFactory();
+        return new LettuceConnectionFactory(new RedisStandaloneConfiguration("localhost", 6379));
     }
 
     @Bean
