@@ -12,20 +12,22 @@
 - Docker:
     - Docker Compose
     
-## Running using Docker (Separately)
+## Local Mode
+
+Can directly use the Redis in Docker so first launch the backed Redis NoSQL Key/Value datastore:
 
 ```bash
-docker network create product-redis-network 
+docker run --rm --name product-service-redis -d -p 6379:6379 redis
 ```
 
-First launch the backed Redis NoSQL Key/Value datastore:
+Then run the product-service from either your favourite IDE or CLI:
 
 ```bash
-docker run --rm --name product-service-redis --network product-redis-network -d -p 6379:6379 redis
+./mvnw clean install && java -jar target/product-service.jar -Dspring.active.profiles=local 
 ```
 
-Then run the product-service:
+## Development Mode
 
 ```bash
-docker run --rm --link product-service-redis:redis --name product-service --network product-redis-network -d -p 8083:8083 product-service
+docker-compose up --build -d
 ```

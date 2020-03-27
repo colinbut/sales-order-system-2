@@ -13,6 +13,7 @@ import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/item")
+@CrossOrigin
 public class ItemController {
 
     @Autowired
