@@ -15,13 +15,13 @@ public class Customer {
 
     @NotNull(message = "First Name cannot be null")
     @NotEmpty(message = "First Name cannot be empty")
-    @Max(value = 15, message = "First Name cannot be greater than 15 characters")
+    @Size(max = 15, message = "First Name cannot be greater than 15 characters")
     @Column(name = "first_name", length = 15, nullable = false)
     private String firstName;
 
     @NotNull(message = "Last Name cannot be null")
     @NotEmpty(message = "Last Name cannot be empty")
-    @Max(value = 20, message = "Last Name cannot be greater than 20 characters")
+    @Size(max = 20, message = "Last Name cannot be greater than 20 characters")
     @Column(name = "last_name", length = 20, nullable = false)
     private String lastName;
 
