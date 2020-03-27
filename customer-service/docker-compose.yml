@@ -6,7 +6,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=dev
     ports:
-      - "8080:8080"
+      - "8081:8081"
     networks:
       - customer-mysql
 
