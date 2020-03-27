@@ -9,4 +9,4 @@ docker rm customer-service
 docker build -t customer-service .
 
 # assumed mysql docker container already started up before development...
-docker run --name customer-service -d -t --link customer-db-mysql:mysql -p 8080:8080 customer-service
+docker run --name customer-service -d -t --link customer-db-mysql:mysql -p 8081:8081 customer-service

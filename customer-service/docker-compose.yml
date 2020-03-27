@@ -2,15 +2,17 @@ version: "3"
 services:
   customer-service:
     build: .
+    container_name: customer-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
     ports:
       - "8080:8080"
     networks:
       - customer-mysql
-    depends_on:
-      - customer-db-mysql
 
   customer-db-mysql:
     image: mysql:8
+    container_name: customer-service-mysql
     ports:
     - "3306:3306"
     networks:
@@ -21,3 +23,4 @@ services:
 
 networks:
   customer-mysql:
+    external: false
