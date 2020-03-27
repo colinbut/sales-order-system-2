@@ -1,5 +1,6 @@
 package com.mycompany.orderservice.config;
 
+import com.google.common.collect.ImmutableList;
 import com.mycompany.orderservice.security.JwtAuthenticationEntryPoint;
 import com.mycompany.orderservice.security.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -53,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-ui.html",
                 "/webjars/**"
         };
-        httpSecurity.csrf().disable()
+        httpSecurity.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(authWhitelist).permitAll()
                 .anyRequest().authenticated()
@@ -62,5 +66,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    /*
+     * Also check out: https://developer.okta.com/blog/2017/12/06/bootiful-development-with-spring-boot-and-react
+     */
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource(){
+        final CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedOrigins(ImmutableList.of("*"));
+        corsConfiguration.setAllowedMethods(ImmutableList.of("*"));
+        corsConfiguration.setAllowedHeaders(ImmutableList.of("*"));
+        corsConfiguration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+        return urlBasedCorsConfigurationSource;
     }
 }
