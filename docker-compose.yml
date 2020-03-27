@@ -1,0 +1,71 @@
+version: "3"
+services:
+  user-service:
+    build: user-service
+    container_name: user-service
+    ports:
+      - "8080:8080"
+    networks:
+      - sales-order-system
+  
+  customer-service:
+    build: customer-service
+    container_name: customer-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    ports:
+      - "8081:8081"
+    networks:
+      - sales-order-system
+
+  customer-db-mysql:
+    image: mysql:8
+    container_name: customer-service-mysql
+    ports:
+    - "3306:3306"
+    networks:
+      - sales-order-system
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=customerdb
+
+  order-service:
+    build: order-service
+    container_name: order-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - sales-order-system
+
+  order-service-db-mongodb:
+    image: mongo
+    container_name: order-service-mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - sales-order-system
+
+  product-service:
+    build: product-service
+    container_name: product-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev # use dev profile when running in Docker Compose
+    ports:
+    - "8083:8083"
+    networks:
+    - sales-order-system
+
+  product-service-db-redis:
+    image: redis
+    container_name: product-service-redis
+    command: [ "redis-server", "--protected-mode", "no" ]
+    ports:
+    - "6379:6379"
+    networks:
+    - sales-order-system
+
+networks:
+  sales-order-system:
+    external: false
