@@ -43,7 +43,7 @@ docker network create customer-mysql
 
 ##### Running MySQL db
 ```bash
-docker run --rm --name customer-db-mysql --network customer-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=customerdb -d mysql:8 
+docker run --rm --name customer-db-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=customerdb -d -p 3306:3306 mysql:8 
 ```
 
 ##### Run as Docker container
