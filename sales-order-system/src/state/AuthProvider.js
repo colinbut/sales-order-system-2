@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import UserContext from './UserContext'
 import { BACKEND_SERVICE_URLS } from '../Config.js'
 import MuiAlert from '@material-ui/lab/Alert'
@@ -14,8 +14,8 @@ const AuthProvider = props => {
         fetch(BACKEND_SERVICE_URLS['user_service'] + "authenticate", {
             method: 'POST',
             body: JSON.stringify({
-                username: "colinbut2",
-                password: "password2"
+                username: "colinbut",
+                password: "password1"
             }),
             headers: {
                 'Content-Type': 'application/json'
