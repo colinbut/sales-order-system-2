@@ -11,6 +11,9 @@
 - Swagger
 - Docker:
     - Docker Compose
+- RestAssured
+- TestContainers
+
     
 ## Local Mode
 

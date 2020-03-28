@@ -3,6 +3,7 @@ package com.mycompany.productservice.config;
 import com.mycompany.productservice.entity.Item;
 import com.mycompany.productservice.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 @Component
+@Profile({"local", "dev"}) // right now this is a some sort of a hack to prevent Integration Tests running this ApplicationConfig
 public class ApplicationConfig {
 
     @Autowired
