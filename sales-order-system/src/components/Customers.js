@@ -1,8 +1,10 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useContext } from 'react'
 import Button from '@material-ui/core/Button'
 import { Link, useHistory } from 'react-router-dom'
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import MaterialTable from 'material-table'
+import UserContext from '../state/UserContext'
+import { BACKEND_SERVICE_URLS } from '../Config.js'
 
 
 const columns = [
@@ -20,8 +22,11 @@ const dummyData = [
     {id: 4, name: 'Martin Man', dob: '', email: 'martin.man@hotmail.com', address: '78 RockingFeller Street, Paris'}
 ]
 
+let customerData = []
+
 const Customers = () => {
     const history = useHistory()
+    const userContext = useContext(UserContext)
     
     const actions = [
         {
@@ -35,6 +40,40 @@ const Customers = () => {
         }
     ]
 
+    useEffect(() => {
+        customerData = []
+        fetch(BACKEND_SERVICE_URLS['customer_service'] + "customer/list", {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + userContext.auth.jwtToken
+            }    
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            }
+            throw new Error("Error getting customers data from server")
+        })
+        .then(data => {
+            //console.log("Data:", data)
+            for (let i = 0; i < data.length; i++){
+                let address = data[i].address
+                customerData.push({
+                    id: data[i].id,
+                    name: data[i].firstName + " " + data[i].lastName,
+                    dob: data[i].dateOfBirth,
+                    email: data[i].email,
+                    address: address.houseFlatNo + " " + address.addressLine1 + ", " + address.postCode
+                })
+            }
+            //console.log(customerData)
+        })
+        .catch(error => {
+            customerData = dummyData
+        })
+    }, [])
+
+
     return (
         <Fragment>
             <div>
@@ -44,7 +83,7 @@ const Customers = () => {
             </div>
             <p></p>
             <div style={{maxWidth:'100%'}}>
-                <MaterialTable title="Customers" columns={columns} data={dummyData} actions={actions}/>
+                <MaterialTable title="Customers" columns={columns} data={customerData} actions={actions}/>
             </div>
         </Fragment>
     )

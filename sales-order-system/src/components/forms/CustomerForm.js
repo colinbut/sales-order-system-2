@@ -18,28 +18,33 @@ const schema = Yup.object({
     postcode: Yup.string().required(),
     city: Yup.string().required(),
     county: Yup.string().required(),
-    cardNo: Yup.string(),
-    cardExpDate: Yup.date(),
-    customerReference: Yup.string()
+    // cardNo: Yup.string(),
+    // cardExpDate: Yup.date(),
+    // customerReference: Yup.string()
 })  
-
-const submitForm = () => {
-    console.log("Submitting form")
-}
 
 const CustomerForm = () => {
     const [validated, setValidated] = useState(false)
-        return (
-            <Fragment>
-            <div className="contact-page-container-wrapper">
-                <h2 className="contact-form-heading">
-                    Contact Details
-                </h2>
+
+    const submitForm = fields => {
+        console.log("Submitting form", JSON.stringify(fields))
+    }
+
+    return (
+        <Fragment>
+            <div>
+                <h2>Contact Details</h2>
                 <Formik validationSchema={schema} onSubmit={submitForm} 
                     initialValues={{
                         firstName: 'First Name',
                         lastName: 'Last Name',
-                        email: 'example@email.com'
+                        dateOfBirth: '',
+                        email: 'example@email.com',
+                        addressLine1: '',
+                        addressLine2: '',
+                        postcode: '',
+                        city: '',
+                        county: ''
                     }}
                 > 
                 {({
@@ -189,10 +194,8 @@ const CustomerForm = () => {
                                 type="text" />
                         </Form.Group>
                     </Form.Row>
-                    <h2 className="contact-form-heading">
-                        Payment Details
-                    </h2>
-                    <Form.Row>
+                    <h2>Payment Details</h2>
+                    {/* <Form.Row>
                         <Form.Group as={Col} md="3">
                             <Form.Label>Card No.</Form.Label>
                         </Form.Group>
@@ -236,14 +239,14 @@ const CustomerForm = () => {
                                 isInvalid={!!errors.customerReference}
                                 type="text" />
                         </Form.Group>
-                    </Form.Row>
+                    </Form.Row> */}
                     <Button variant="contained" color="secondary" type="submit">Submit</Button>
                 </Form>
                 )}
                 </Formik>
-            </div>
-            </Fragment>
-        )
+        </div>
+     </Fragment>
+    )
 }
 
 export default CustomerForm
