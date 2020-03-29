@@ -1,10 +1,16 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Sales Order System Client
 
-## Available Scripts
+This frontend project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Local Mode
 
 In the project directory, you can run:
 
-### `npm start`
+### Start Webpack Dev Server:
+
+```bash
+npm start
+```
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -13,6 +19,12 @@ The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
 ### `npm test`
+
+```bash
+npm test
+```
+
+Note* currently no frontend tests as client mainly consists of UI (views) with minimal logic so will add some tests in later.
 
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
@@ -37,11 +49,14 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Development Mode
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm run build && npx serve -s build
+```
+
+## Docs from Create-React-App's generated README
 
 ### Code Splitting
 
