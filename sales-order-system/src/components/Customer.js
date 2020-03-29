@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
 import MaterialTable from 'material-table'
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
-import { BACKEND_SERVICE_URLS } from '../Config.js'
 import UserContext from '../state/UserContext'
 
 const columns = [
@@ -21,7 +20,7 @@ const Customer = props => {
 
     useEffect(() => {
         ordersData = []
-        fetch(BACKEND_SERVICE_URLS['order_service'] + "orders?customerId=" + customer.id, {
+        fetch(process.env.REACT_APP_ORDER_SERVICE + "/orders?customerId=" + customer.id, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + userContext.auth.jwtToken

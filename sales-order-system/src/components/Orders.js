@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useContext } from 'react'
 import MaterialTable from 'material-table'
 import UserContext from '../state/UserContext'
-import { BACKEND_SERVICE_URLS } from '../Config.js'
 
 const columns = [
     {title: '#', field: 'id', type: 'numeric'},
@@ -17,7 +16,7 @@ const Orders = () => {
     
     useEffect(() => {
         ordersData = []
-        fetch(BACKEND_SERVICE_URLS['order_service'] + "orders/list", {
+        fetch(process.env.REACT_APP_ORDER_SERVICE + "/orders/list", {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + userContext.auth.jwtToken
@@ -33,7 +32,7 @@ const Orders = () => {
             console.log("Data:", data)
             for (let i = 0; i < data.length; i++){
                 //console.log("Making request to fetch customer data for: " + data[i].customerId)
-                fetch(BACKEND_SERVICE_URLS['customer_service'] + "customer/" + data[i].customerId, {
+                fetch(process.env.REACT_APP_CUSTOMER_SERVICE + "/customer/" + data[i].customerId, {
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + userContext.auth.jwtToken

@@ -4,7 +4,6 @@ import { Link, useHistory } from 'react-router-dom'
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import MaterialTable from 'material-table'
 import UserContext from '../state/UserContext'
-import { BACKEND_SERVICE_URLS } from '../Config.js'
 
 
 const columns = [
@@ -42,7 +41,7 @@ const Customers = () => {
 
     useEffect(() => {
         customerData = []
-        fetch(BACKEND_SERVICE_URLS['customer_service'] + "customer/list", {
+        fetch(process.env.REACT_APP_CUSTOMER_SERVICE + "/customer/list", {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + userContext.auth.jwtToken

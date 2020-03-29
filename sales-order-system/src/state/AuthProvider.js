@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import UserContext from './UserContext'
-import { BACKEND_SERVICE_URLS } from '../Config.js'
 import MuiAlert from '@material-ui/lab/Alert'
 
 const AuthProvider = props => {
@@ -11,7 +10,7 @@ const AuthProvider = props => {
     const [auth, setAuth] = useState(initialState)
 
     useEffect(() => {
-        fetch(BACKEND_SERVICE_URLS['user_service'] + "authenticate", {
+        fetch(process.env.REACT_APP_USER_SERVICE + "/authenticate", {
             method: 'POST',
             body: JSON.stringify({
                 username: "colinbut",

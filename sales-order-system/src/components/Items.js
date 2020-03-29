@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
 import PhotoFilterIcon from '@material-ui/icons/PhotoFilter'
 import MaterialTable from 'material-table'
-import { BACKEND_SERVICE_URLS } from '../Config.js'
 import UserContext from '../state/UserContext'
 
 const columns = [
@@ -24,7 +23,7 @@ const Items = props => {
     
     useEffect(() => {
         if (itemData.length === 0 ) {
-            fetch(BACKEND_SERVICE_URLS['product_service'] + "item/list", {
+            fetch(process.env.REACT_APP_PRODUCT_SERVICE + "/item/list", {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + userContext.auth.jwtToken

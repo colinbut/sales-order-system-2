@@ -6,7 +6,6 @@ import Col from 'react-bootstrap/Col'
 import { Formik } from 'formik'
 import * as Yup from 'yup' 
 import { Link, useHistory } from 'react-router-dom'
-import { BACKEND_SERVICE_URLS } from '../../Config.js'
 import UserContext from '../../state/UserContext'
 
 const schema = Yup.object({
@@ -21,7 +20,7 @@ const ItemForm = () => {
     
     const submitForm = fields => {
         //console.log("Submitting form with fields: " + JSON.stringify(fields, null, 4))
-        fetch(BACKEND_SERVICE_URLS['product_service'] + 'item', {
+        fetch(process.env.REACT_APP_PRODUCT_SERVICE + '/item', {
             method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + userContext.auth.jwtToken,
