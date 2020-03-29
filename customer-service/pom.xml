@@ -19,6 +19,7 @@
 		<swagger.version>2.9.2</swagger.version>
 		<jwt.version>0.9.1</jwt.version>
 		<rest.assured.version>3.3.0</rest.assured.version>
+		<testcontainer.version>1.13.0</testcontainer.version>
 	</properties>
 
 	<dependencies>
@@ -110,6 +111,26 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers</artifactId>
+			<version>${testcontainer.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>${testcontainer.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>mysql</artifactId>
+			<version>${testcontainer.version}</version>
 			<scope>test</scope>
 		</dependency>
 
