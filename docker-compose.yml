@@ -66,6 +66,14 @@ services:
     networks:
     - sales-order-system
 
+  sales-order-system-client:
+    build: sales-order-system
+    container_name: sales-order-system-app
+    ports:
+    - "80:80"
+    networks:
+    - sales-order-system
+
 networks:
   sales-order-system:
     external: false
