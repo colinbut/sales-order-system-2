@@ -13,18 +13,29 @@ repositories {
 	mavenCentral()
 }
 
+def swaggerVersion = '2.9.2'
+def jwtVersion = '0.9.1'
+def restAssuredVersion = '3.3.0'
+def testContainersSpringBoot = '1.43'
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'io.springfox:springfox-swagger2:2.9.2'
-	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation "io.springfox:springfox-swagger2:$swaggerVersion"
+	implementation "io.springfox:springfox-swagger-ui:$swaggerVersion"
+	implementation "io.jsonwebtoken:jjwt:$jwtVersion"
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation "io.rest-assured:rest-assured:$restAssuredVersion"
+	testImplementation "io.rest-assured:json-path:$restAssuredVersion"
+	testImplementation "io.rest-assured:xml-path:$restAssuredVersion"
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation "org.springframework.cloud:spring-cloud-starter:2.2.2.RELEASE"
+	testCompile "com.playtika.testcontainers:embedded-mongodb:$testContainersSpringBoot"
 }
 
 test {

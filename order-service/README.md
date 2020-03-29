@@ -11,3 +11,4 @@
 - Swagger
 - Docker:
     - Docker Compose
+- Gradle
