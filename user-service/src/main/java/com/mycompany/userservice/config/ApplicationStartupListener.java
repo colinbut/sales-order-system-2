@@ -5,6 +5,7 @@ import com.mycompany.userservice.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
+@Profile("!test") //don't execute this bean when run in tests (done using a 'test' profile)
 public class ApplicationStartupListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationStartupListener.class);

@@ -79,7 +79,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String user = claims.getBody().get("usr", String.class);
         List<LinkedHashMap<String, String>> roles = claims.getBody().get("scopes", ArrayList.class);
 
-        List<GrantedAuthority> grantedAuthorities = roles.stream()
+        List<GrantedAuthority> grantedAuthorities = roles == null || roles.isEmpty() ? Collections.emptyList()
+                : roles.stream()
                 .flatMap(x -> x.values().stream())
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
