@@ -18,7 +18,36 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `npm test`
+## Development Mode
+
+Can simply do:
+
+```bash
+npm run build && npx serve -s build
+```
+
+or Alternatively, can run frontend stack using Docker:
+
+```bash
+docker-compose up -d --build sales-order-system-client
+```
+
+## Project Lifecyle
+
+Currently, for this frontend client project there are only 2 known development lifecycle phases (as mainly provided by React's Create-React-App):
+
+1. local
+2. prod
+   
+Apart from local build for local development, everything else at the moment is considered 'production'.
+
+### Local Build
+
+```bash
+npm install
+```
+
+### Run Tests
 
 ```bash
 npm test
@@ -29,7 +58,12 @@ Note* currently no frontend tests as client mainly consists of UI (views) with m
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+
+### Building for Prod
+
+```bash
+npm run build
+```
 
 Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -39,22 +73,30 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-
-## Development Mode
+Once the static artifacts are built, then need to build a Docker image from it. The static files are served using a NGINX reverse proxy http server.
 
 ```bash
-npm run build && npx serve -s build
+docker build -t sales-order-system-client .
 ```
+
+Alternatively, reuse Docker-Compose capability of integrating the front end client into this whole project:
+
+```bash
+docker-compose up -d --build sales-order-system-client
+```
+
+## Technologies 
+
+- React
+- React-Router
+- Material-UI
+- React Bootstrap
+- Material-Table
+- Create-React-App
+- Formik
+- Yup
+- Npm
+- clsx
 
 ## Docs from Create-React-App's generated README
 
