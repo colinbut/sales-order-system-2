@@ -48,7 +48,7 @@ public class ApiUserIntegrationTest {
                     .log().all()
                     .assertThat()
                     .statusCode(HttpStatus.OK.value())
-                    .body("size()", equalTo(2));
+                    .body("size()", equalTo(3));
     }
 
     @Test
