@@ -91,7 +91,9 @@ These are wrapper bash scripts around __Docker Compose__.
 
 ## Demo
 
-[TDB]
+__Starting Up & Tearing Down (via CLI)__:
+
+[![asciicast](https://asciinema.org/a/314922.svg)](https://asciinema.org/a/314922)
 
 ## Project Development
 This following section describes various aspects of the project's development covering:
