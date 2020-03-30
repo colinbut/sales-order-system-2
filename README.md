@@ -52,9 +52,18 @@ This project has different modes:
 
 
 ## Software Architecture
-.
+
+Each business domain is segregated into their own microservices which exposes RESTful API endpoints for the client to consume. The UI is built using the React UI library with its ecosystem of sibing tools for constructing UI components, client side routing, forms, form validations etc.
+
+![software-architecture](etc/software-architecture.png)
+
 ## System Architecture
-.
+
+The following shows a high level architecture of the full system:
+
+![system-architecture](etc/system-architecture.png)
+
+Each backend microservice & its associated data storage components are dockerized. The frontend client application is served as static files using NGINX as a http server which is then bundled up into a Docker container too.
 
 ## Running Application
 
@@ -151,7 +160,7 @@ Unlike its predecessor, Sales Order System 2.0 does not do server side rendering
 
 It is constructed entirely using React - a UI library, along with several other frontend components from the React ecosystem. This React frontend application was bootstrapped by [Create-React-App](https://create-react-app.dev/). A helper project that helps setting up React projects quick and fast.
 
-It is built as a static site mainly using React Router to achieve client side routing.
+It is a "thick" client and is built as a static site mainly using React Router to achieve client side routing.
 
 For more in-depth details of this, see the frontend sub project - Sales Order System.
 
