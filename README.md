@@ -50,6 +50,9 @@ This project has different modes:
 | Staging      | for QA story testing                       | [TBD]                           |
 | Production   | Actual Use                                 | [TBD]                           |
 
+The above modes maps to the project development lifecycle as specified in each microservices.
+
+![projectmode_lifecycle](etc/ProjectModesLifecycles.png)
 
 ## Software Architecture
 
