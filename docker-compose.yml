@@ -1,20 +1,26 @@
 version: "3"
 services:
   user-service:
-    build: user-service
+    build: ./user-service
     container_name: user-service
+    expose:
+      - "8080"
     ports:
       - "8080:8080"
     networks:
       - sales-order-system
   
   customer-service:
-    build: customer-service
+    build: ./customer-service
     container_name: customer-service
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
+    expose:
+      - "8081"
+    env_file:
+      - '.env'
     ports:
       - "8081:8081"
+    depends_on: 
+      - 'customer-db-mysql'
     networks:
       - sales-order-system
 
@@ -22,7 +28,7 @@ services:
     image: mysql:8
     container_name: customer-service-mysql
     ports:
-    - "3306:3306"
+      - "3306:3306"
     networks:
       - sales-order-system
     environment:
@@ -30,12 +36,16 @@ services:
       - MYSQL_DATABASE=customerdb
 
   order-service:
-    build: order-service
+    build: ./order-service
     container_name: order-service
+    expose:
+      - "8082"
     ports:
       - "8082:8082"
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
+    env_file:
+      - '.env'
+    depends_on: 
+      - 'order-service-db-mongodb'
     networks:
       - sales-order-system
 
@@ -48,12 +58,16 @@ services:
       - sales-order-system
 
   product-service:
-    build: product-service
+    build: ./product-service
     container_name: product-service
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev # use dev profile when running in Docker Compose
+    expose:
+      - "8083"
+    env_file:
+      - '.env'
     ports:
     - "8083:8083"
+    depends_on: 
+    - 'product-service-db-redis'
     networks:
     - sales-order-system
 
@@ -67,12 +81,24 @@ services:
     - sales-order-system
 
   sales-order-system-client:
-    build: sales-order-system
+    build: ./sales-order-system
     container_name: sales-order-system-app
+    expose:
+    - "80"
     ports:
     - "80:80"
     networks:
     - sales-order-system
+    depends_on:
+    - 'user-service'
+    - 'customer-service'
+    - 'order-service'
+    - 'product-service'
+    links:
+    - user-service
+    - customer-service
+    - order-service
+    - product-service
 
 networks:
   sales-order-system:
