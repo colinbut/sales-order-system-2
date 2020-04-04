@@ -3,9 +3,7 @@ pipeline {
     stages {
         stage('Change project dir') {
             steps {
-                dir('user-service') {
-                    sh 'pwd'
-                }
+                sh 'cd user-service/ && ls -alrt'
             }
         }
         stage('Compile Code') {
