@@ -2,8 +2,10 @@ pipeline {
     agent any
     stages {
         stage('Change project dir') {
-            dir('user-service') {
-                sh 'pwd'
+            steps {
+                dir('user-service') {
+                    sh 'pwd'
+                }
             }
         }
         stage('Compile Code') {
