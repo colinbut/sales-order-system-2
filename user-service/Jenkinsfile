@@ -1,6 +1,11 @@
 pipeline {
     agent any
     stages {
+        stage('Change project dir') {
+            dir('user-service') {
+                sh 'pwd'
+            }
+        }
         stage('Compile Code') {
             steps {
                 sh './mvnw clean compile'
