@@ -1,29 +1,24 @@
 pipeline {
     agent any
     stages {
-        stage('Change project dir') {
-            steps {
-                sh 'cd user-service/ && ls -alrt'
-            }
-        }
         stage('Compile Code') {
             steps {
-                sh './mvnw clean compile'
+                sh './user-service/mvnw clean compile'
             }
         }
         stage('Unit Test') {
             steps {
-                sh './mvnw test'
+                sh './user-service/mvnw test'
             }
         }
         stage('Integration Test') {
             steps {
-                sh './mvnw verify'
+                sh './user-service/mvnw verify'
             }
         }
         stage('Package Artifact Jar') {
             steps {
-                sh './mvnw package'
+                sh './user-service/mvnw package'
             }
         }
         stage('Build Docker Image') {
@@ -31,7 +26,7 @@ pipeline {
                 VERSION = readMavenPom().getVersion()
             }
             steps {
-                sh "docker build -t user-service:${VERSION} ."
+                sh "cd user-service/ && docker build -t user-service:${VERSION} ."
             }
         }
     }
