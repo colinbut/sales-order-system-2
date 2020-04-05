@@ -3,22 +3,22 @@ pipeline {
     stages {
         stage('Compile Code') {
             steps {
-                sh './mvnw clean compile'
+                sh 'cd user-service && ./mvnw clean compile'
             }
         }
         stage('Unit Test') {
             steps {
-                sh './mvnw test'
+                sh 'cd user-service && ./mvnw test'
             }
         }
         stage('Integration Test') {
             steps {
-                sh './mvnw verify'
+                sh 'cd user-service && ./mvnw verify'
             }
         }
         stage('Package Artifact Jar') {
             steps {
-                sh './mvnw package'
+                sh 'cd user-service && ./mvnw package'
             }
         }
         stage('Build Docker Image') {
@@ -26,7 +26,7 @@ pipeline {
                 VERSION = readMavenPom().getVersion()
             }
             steps {
-                sh "docker build -t user-service:${VERSION} ."
+                sh "cd user-service && docker build -t user-service:${VERSION} ."
             }
         }
     }
