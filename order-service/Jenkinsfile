@@ -3,22 +3,22 @@ pipeline {
     stages {
         stage('Compile Code') {
             steps {
-                sh 'cd order-service && ./mvnw clean compile'
+                sh 'cd order-service && ./gradlew clean compileJava'
             }
         }
         stage('Unit Test') {
             steps {
-                sh 'cd order-service && ./mvnw test'
+                sh 'cd order-service && ./gradlew test'
             }
         }
         stage('Integration Test') {
             steps {
-                sh 'cd order-service && ./mvnw verify'
+                echo 'Integration Test'
             }
         }
         stage('Package Artifact Jar') {
             steps {
-                sh 'cd order-service && ./mvnw package'
+                sh 'cd order-service && ./gradlew bootJar'
             }
         }
         stage('Build Docker Image') {
