@@ -3,22 +3,22 @@ pipeline {
     stages {
         stage('Compile Code') {
             steps {
-                sh 'cd customer-service && ./mvnw clean compile'
+                sh 'cd product-service && ./mvnw clean compile'
             }
         }
         stage('Unit Test') {
             steps {
-                sh 'cd customer-service && ./mvnw test'
+                sh 'cd product-service && ./mvnw test'
             }
         }
         stage('Integration Test') {
             steps {
-                sh 'cd customer-service && ./mvnw verify'
+                sh 'cd product-service && ./mvnw verify'
             }
         }
         stage('Package Artifact Jar') {
             steps {
-                sh 'cd customer-service && ./mvnw package'
+                sh 'cd product-service && ./mvnw package'
             }
         }
         stage('Build Docker Image') {
@@ -26,7 +26,7 @@ pipeline {
                 COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
             }
             steps {
-                sh "docker build -t customer-service:${COMMIT_ID} -f customer-service/Dockerfile customer-service/"
+                sh "docker build -t product-service:${COMMIT_ID} -f product-service/Dockerfile product-service/"
             }
         }
     }

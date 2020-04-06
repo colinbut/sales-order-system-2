@@ -23,10 +23,10 @@ pipeline {
         }
         stage('Build Docker Image') {
             environment {
-                VERSION = readMavenPom().getVersion()
+                COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
             }
             steps {
-                sh "cd user-service && docker build -t user-service:${VERSION} ."
+                sh "docker build -t user-service:${COMMIT_ID} -f user-service/Dockerfile user-service/"
             }
         }
     }
