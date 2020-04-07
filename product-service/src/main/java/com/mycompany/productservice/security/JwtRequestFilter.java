@@ -30,6 +30,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Value("${jwt.secret}")
     private String secret;
 
+    @Value("${jwt.issuer}")
+    private String issuer;
+
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
                                     FilterChain filterChain) throws ServletException, IOException {
@@ -41,15 +44,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (jwtToken != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             JwtAuthInfo authInfo = parseJwtClaims(jwtToken);
             boolean isTokenValid = validateToken(authInfo);
+            String user = authInfo.getUser();
             if (isTokenValid) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                        "", null, authInfo.getGrantedAuthorities()
+                        user, null, authInfo.getGrantedAuthorities()
                 );
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                LOGGER.info("Authenticated User {} , setting security context", authInfo.getUser());
+                LOGGER.info("Authenticated User {} , setting security context", user);
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             } else {
-                LOGGER.warn("Token: {} not valid for user: {}", jwtToken, authInfo.getUser());
+                LOGGER.warn("Token: {} not valid for user: {}", jwtToken, user);
             }
         } else {
             LOGGER.warn("No JWT info in request or Security Context has no Authentication set");
@@ -73,10 +77,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private JwtAuthInfo parseJwtClaims(String jwtToken) {
         Jws<Claims> claims = Jwts.parser()
-                .requireIssuer("Sales Order System")
+                .requireIssuer(issuer)
                 .setSigningKey(secret)
                 .parseClaimsJws(jwtToken);
-        String user = claims.getBody().get("usr", String.class);
+        String user = claims.getBody().getSubject();
         List<LinkedHashMap<String, String>> roles = claims.getBody().get("scopes", ArrayList.class);
 
         List<GrantedAuthority> grantedAuthorities = (roles == null || roles.isEmpty()) ? Collections.emptyList() :

@@ -27,3 +27,5 @@ spring:
 # Security
 jwt:
   secret: userservice
+  issuer: "Sales Order System"
+  tokenValidity: 18000 # (5 * 60 * 60)
