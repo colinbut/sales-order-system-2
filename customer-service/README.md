@@ -20,7 +20,7 @@ Local mode is mainly used for developing this microservice.
 Run directly from your IDE or from CLI using following command:
 
 ```bash
-./mvnw spring-boot:run
+./mvnw spring-boot:run -Dspring.profiles.active=dev
 ```
 
 You don't have to install MySQL but if have then can just launch it:
