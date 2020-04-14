@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 @Component
-@Profile({"local", "dev"}) // right now this is a some sort of a hack to prevent Integration Tests running this ApplicationConfig
+@Profile({"local", "dev", "prod"}) // right now this is a some sort of a hack to prevent Integration Tests running this ApplicationConfig
 public class ApplicationConfig {
 
     @Autowired
