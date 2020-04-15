@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-@Profile({"local", "dev"})
+@Profile({"local", "dev", "staging", "prod"})
 public class ApplicationConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfig.class);
