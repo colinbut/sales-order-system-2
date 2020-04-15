@@ -50,7 +50,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                         user, null, authInfo.getGrantedAuthorities()
                 );
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                LOGGER.info("Authenticated User {} , setting security context", user);
+                LOGGER.debug("Authenticated User {} , setting security context", user);
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             } else {
                 LOGGER.warn("Token: {} not valid for user: {}", jwtToken, user);
