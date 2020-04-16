@@ -35,6 +35,7 @@ public class CustomerController {
 
     @GetMapping("/{customerId}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable("customerId") Integer customerId) {
+        LOGGER.info("Fetching customer with id: {}", customerId);
         return ResponseEntity.ok(customerRepository.findById(customerId).orElseThrow(RuntimeException::new));
     }
 }
