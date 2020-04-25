@@ -13,11 +13,22 @@ This project is an evolution of the first where the first project demoed a now m
 
 Evolutions showcases are more modern approach to web app development, fully embracing a microservices architecture using much modern (in 2020) cutting edge technologies [Java 8, Spring Boot, React, Docker].
 
+__Spin Offs__  
+Furthermore, similar to its predecessor, this particular project showcases the "Application Development" theme. There are a number of spin-offs propjects from this project which demonstrates the following various IAC (Infrastructure as Code) concepts:
+
+| Project | Theme |
+|:--------| :-----------|
+| [Sales Order System 2.0: Docker on EC2](https://github.com/colinbut/sales-order-system-2-infrastructure) | Infrastructure Provisioning - AWS Cloud Native Resources |
+| [Sales Order System 2.0: Deployment Automation (Docker on EC2)](https://github.com/colinbut/sales-order-system-2-ec2-docker-deployment) | Deployment Automation (using Ansible) |
+| [Sales Order System 2.0: Kubernetes (EKS))](https://github.com/colinbut/sales-order-system-2-infrastructure-eks) | Infrastructure Provisioning - Kubernetes |
+| [Sales Order System 2.0: K8s Platform Configuration](https://github.com/colinbut/sales-order-system-2-eks-deployment) | Application/Platform Configuration |
+
 ## Table of Contents
 
   - [Project Modes](#project-modes)
   - [Software Architecture](#software-architecture)
   - [System Architecture](#system-architecture)
+  - [Production Platform Infrastructure](#production-platform-infrastructure)
   - [Running Application](#running-application)
   - [Demo](#demo)
   - [Project Development](#project-development)
@@ -46,9 +57,10 @@ This project has different modes:
 | Mode         | Description                                | Environment Mapping             |
 |:-------------|:-------------------------------------------|:--------------------------------|
 | Local        | for local development, using IDE           | localhost/local machine         |
-| Development  | for local dev/functional testing / Demo    | Docker Compose on local machine |
-| Staging      | for QA story testing                       | [TBD]                           |
-| Production   | Actual Use                                 | [TBD]                           |
+| Sandbox      | for local dev/functional testing / Demo    | Docker Compose on local machine |
+| Dev          | shared "dev" for team of developers        | AWS (EC2/EKS)                   |
+| Staging      | for QA story testing                       | AWS (EC2/EKS)                   |
+| Production   | Actual Use                                 | AWS (EC2/EKS)                   |
 
 The above modes maps to the project development lifecycle as specified in each microservices.
 
@@ -67,6 +79,16 @@ The following shows a high level architecture of the full system:
 ![system-architecture](etc/system-architecture.png)
 
 Each backend microservice & its associated data storage components are dockerized. The frontend client application is served as static files using NGINX as a http server which is then bundled up into a Docker container too.
+
+## Production Platform Infrastructure
+
+The above mentions how this application is systemed up. It is built as a series of Docker containers that can be run anywhere.
+For simulating a prod-like environment, this demo project would live on the AWS Cloud Platform and can be run as either Docker containers running directly inside EC2 instances or being managed by a container orchestration framework in Kubernetes (AWS EKS).
+
+See the 2 sister projects below:
+
+- [Sales Order System: Infrastructure (Docker on EC2)](https://github.com/colinbut/sales-order-system-2-infrastructure)
+- [Sales Order System: Infrastructure (Kubernetes on EKS)](https://github.com/colinbut/sales-order-system-2-eks-infrastructure)
 
 ## Running Application
 
