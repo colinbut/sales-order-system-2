@@ -20,7 +20,7 @@ Furthermore, similar to its predecessor, this particular project showcases the "
 |:--------| :-----------|
 | [Sales Order System 2.0: Docker on EC2](https://github.com/colinbut/sales-order-system-2-infrastructure) | Infrastructure Provisioning - AWS Cloud Native Resources |
 | [Sales Order System 2.0: Deployment Automation (Docker on EC2)](https://github.com/colinbut/sales-order-system-2-ec2-docker-deployment) | Deployment Automation (using Ansible) |
-| [Sales Order System 2.0: Kubernetes (EKS))](https://github.com/colinbut/sales-order-system-2-infrastructure-eks) | Infrastructure Provisioning - Kubernetes |
+| [Sales Order System 2.0: Kubernetes (EKS)](https://github.com/colinbut/sales-order-system-2-infrastructure-eks) | Infrastructure Provisioning - Kubernetes |
 | [Sales Order System 2.0: K8s Platform Configuration](https://github.com/colinbut/sales-order-system-2-eks-deployment) | Application/Platform Configuration |
 
 ## Table of Contents
