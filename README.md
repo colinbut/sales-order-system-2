@@ -45,9 +45,9 @@ Furthermore, similar to its predecessor, this particular project showcases the "
     - [Entity Driven Microservices](#entity-driven-microservices)
     - [Activity Driven Microservices](#activity-driven-microservices)
   - [Technologies Overview](#technologies-overview)
-  - [Screenshots](#screenshots)
   - [Appendix](#appendix)
     - [Port Mappings](#port-mappings)
+    - [Screenshots](#screenshots)
 
 ## Project Modes
 
@@ -255,10 +255,6 @@ As name suggests this is where most logic orchestration should happen. Let's hop
   - Maven
   - Gradle
 
-## Screenshots
-
-[TBD]
-
 ## Appendix
 
 ### Port Mappings
@@ -269,3 +265,19 @@ As name suggests this is where most logic orchestration should happen. Let's hop
 | Customer Service | 8081 | 
 | Order Service    | 8082 | 
 | Product Service  | 8083 |
+
+### Screenshots
+
+![customers-page](https://images-for-github-colinbut.s3.eu-west-2.amazonaws.com/sales-order-system-2/sales-order-system-2-customers.png)
+
+
+![orders-page](https://images-for-github-colinbut.s3.eu-west-2.amazonaws.com/sales-order-system-2/sales-order-system-2-orders.png)
+
+
+![items-page](https://images-for-github-colinbut.s3.eu-west-2.amazonaws.com/sales-order-system-2/sales-order-system-2-items.png)
+
+
+![expanded-sidebar](https://images-for-github-colinbut.s3.eu-west-2.amazonaws.com/sales-order-system-2/sales-order-system-2-expanded-sidebar.png)
+
+
+![about-page](https://images-for-github-colinbut.s3.eu-west-2.amazonaws.com/sales-order-system-2/sales-order-system-2-about.png)
