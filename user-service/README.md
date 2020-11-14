@@ -1,5 +1,9 @@
 # User Service
 
+## Author
+
+Colin But
+
 ## Technologies
 
 - Java 8
