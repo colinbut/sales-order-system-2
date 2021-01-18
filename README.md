@@ -83,7 +83,7 @@ For simulating a prod-like environment, this demo project would live on the AWS 
 See the 2 sister projects below:
 
 - [Sales Order System: Infrastructure (Docker on EC2)](https://github.com/colinbut/sales-order-system-2-infrastructure)
-- [Sales Order System: Infrastructure (Kubernetes on EKS)](https://github.com/colinbut/sales-order-system-2-eks-infrastructure)
+- [Sales Order System: Infrastructure (Kubernetes on EKS)](https://github.com/colinbut/sales-order-system-2-infrastructure-eks)
 
 ## Running Application
 
