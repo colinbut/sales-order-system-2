@@ -6,10 +6,10 @@ Just like the first installment, this project aims to be a complete personal sid
 
 __Therefore, this project is currently still on-going, always WIP state, and will never ever be classified as 'finished'. However, current project state is at a "Complete Enough" state. Because of this, this project is sort of workable and demo-able but will have obvious signs of incompleteness & a few bugs here & there.__
 
-This project is an evolution of the first where the first project demoed a now more traditional Java/J2EE Spring Web MVC, Server Side Rendering, JSP "monolithic" application. Evolutions showcases are more modern approach to web app development, fully embracing a microservices architecture using much modern (in 2020) cutting edge technologies [Java 8, Spring Boot, React, Docker].
+This project is an evolution of the first where the first project demoed a more traditional Java/J2EE Spring Web MVC, Server Side Rendering, JSP "monolithic" application. The evolutions of this project showcases are more modern approach to web app development, fully embracing a microservices architecture using much modern (in 2020) cutting edge technologies [Java 8, Spring Boot, React, Docker].
 
 __Spin Offs__  
-Furthermore, similar to its predecessor, this particular project showcases the "Application Development" theme. There are a number of spin-offs propjects from this project which demonstrates the following various IAC (Infrastructure as Code) concepts:
+Furthermore, similar to its predecessor, this particular project showcases the "Application Development" theme. There are a number of spin-offs projects from this project which demonstrates the following various IAC (Infrastructure as Code) concepts:
 
 | Project | Theme |
 |:--------| :-----------|
