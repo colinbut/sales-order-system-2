@@ -4,8 +4,7 @@ import Form from 'react-bootstrap/Form'
 import Button from '@material-ui/core/Button'
 import Col from 'react-bootstrap/Col'
 import { Formik } from 'formik'
-import * as Yup from 'yup' 
-import { Link } from 'react-router-dom'
+import * as Yup from 'yup'
 
 const schema = Yup.object({
     firstName: Yup.string().required(),
@@ -28,6 +27,7 @@ const CustomerForm = () => {
 
     const submitForm = fields => {
         console.log("Submitting form", JSON.stringify(fields))
+        setValidated(true)
     }
 
     return (

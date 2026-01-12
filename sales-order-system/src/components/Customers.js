@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useContext } from 'react'
+import React, { Fragment, useEffect, useContext, useState } from 'react'
 import Button from '@material-ui/core/Button'
 import { Link, useHistory } from 'react-router-dom'
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
@@ -21,12 +21,12 @@ const dummyData = [
     {id: 4, name: 'Martin Man', dob: '', email: 'martin.man@hotmail.com', address: '78 RockingFeller Street, Paris'}
 ]
 
-let customerData = []
-
 const Customers = () => {
     const history = useHistory()
     const userContext = useContext(UserContext)
     
+    const [customerData, setCustomerData] = useState([])
+
     const actions = [
         {
             icon: 'launch',
@@ -40,7 +40,6 @@ const Customers = () => {
     ]
 
     useEffect(() => {
-        customerData = []
         fetch(process.env.REACT_APP_CUSTOMER_SERVICE + "/customer/list", {
             method: 'GET',
             headers: {
@@ -54,10 +53,10 @@ const Customers = () => {
             throw new Error("Error getting customers data from server")
         })
         .then(data => {
-            //console.log("Data:", data)
+            const newCustomers = []
             for (let i = 0; i < data.length; i++){
                 let address = data[i].address
-                customerData.push({
+                newCustomers.push({
                     id: data[i].id,
                     name: data[i].firstName + " " + data[i].lastName,
                     dob: data[i].dateOfBirth,
@@ -65,12 +64,12 @@ const Customers = () => {
                     address: address.houseFlatNo + " " + address.addressLine1 + ", " + address.postCode
                 })
             }
-            //console.log(customerData)
+            setCustomerData(newCustomers)
         })
         .catch(error => {
-            customerData = dummyData
+            setCustomerData(dummyData)
         })
-    }, [])
+    }, [userContext.auth.jwtToken])
 
 
     return (

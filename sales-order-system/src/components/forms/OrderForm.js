@@ -4,15 +4,14 @@ import Form from 'react-bootstrap/Form'
 import Button from '@material-ui/core/Button'
 import Col from 'react-bootstrap/Col'
 import { Formik } from 'formik'
-import * as Yup from 'yup' 
-import { Link } from 'react-router-dom'
+import * as Yup from 'yup'
 
 const schema = Yup.object({
     items: Yup.array().of(Yup.string()).required()
 })  
 
-const submitForm = () => {
-    console.log("Submitting form")
+const submitForm = fields => {
+    console.log("Submitting form", JSON.stringify(fields))
 }
 
 const OrderForm = () => {
@@ -23,7 +22,11 @@ const OrderForm = () => {
                     <h2 className="contact-form-heading">
                         Create Order
                     </h2>
-                    <Formik validationSchema={schema} onSubmit={submitForm} 
+                    <Formik validationSchema={schema} onSubmit={(fields, { setSubmitting }) => { 
+                        submitForm(fields); 
+                        setValidated(true);
+                        setSubmitting(false); 
+                    }} 
                         initialValues={{}}
                     > 
                     {({handleSubmit}) => (

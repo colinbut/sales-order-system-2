@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useContext } from 'react'
+import React, { Fragment, useEffect, useContext, useState } from 'react'
 import MaterialTable from 'material-table'
 import UserContext from '../state/UserContext'
 
@@ -9,13 +9,17 @@ const columns = [
 ]
 
 const dummyData =[]
-let ordersData = []
 
 const Orders = () => {
     const userContext = useContext(UserContext)
+    const [ordersData, setOrdersData] = useState([])
     
     useEffect(() => {
-        ordersData = []
+        if (!userContext.auth.jwtToken) {
+            setOrdersData(dummyData)
+            return
+        }
+
         fetch(process.env.REACT_APP_ORDER_SERVICE + "/orders/list", {
             method: 'GET',
             headers: {
@@ -29,39 +33,43 @@ const Orders = () => {
             throw new Error('Failed to fetch orders data from server')
         })
         .then(data => {
-            console.log("Data:", data)
-            for (let i = 0; i < data.length; i++){
-                //console.log("Making request to fetch customer data for: " + data[i].customerId)
-                fetch(process.env.REACT_APP_CUSTOMER_SERVICE + "/customer/" + data[i].customerId, {
+            console.log("Orders Data:", data)
+            const customerFetches = data.map(order => 
+                fetch(process.env.REACT_APP_CUSTOMER_SERVICE + "/customer/" + order.customerId, {
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + userContext.auth.jwtToken
                     }
-                })
-                .then(response => {
+                }).then(response => {
                     if (response.ok) {
                         return response.json()
                     }
-                    throw new Error('Failed to fetch customer data from server')
-                })
-                .then(customerData => {
-                    //console.log("Customer data:", customerData)
-                    let address = customerData.address
-                    ordersData.push({
-                        id: data[i].id,
-                        customer: customerData.firstName + " " + customerData.lastName + ", " + customerData.dateOfBirth + ", " + customerData.email,
-                        address: address.houseFlatNo + " " + address.addressLine1 + ", " + address.postCode + ", " + address.city
+                    throw new Error('Failed to fetch customer data for order ' + order.id)
+                }).then(customerData => ({ order, customerData }))
+            )
+
+            Promise.all(customerFetches)
+                .then(results => {
+                    const newOrders = results.map(({ order, customerData }) => {
+                        let address = customerData.address
+                        return {
+                            id: order.id,
+                            customer: customerData.firstName + " " + customerData.lastName + ", " + customerData.dateOfBirth + ", " + customerData.email,
+                            address: address.houseFlatNo + " " + address.addressLine1 + ", " + address.postCode + ", " + address.city
+                        }
                     })
+                    setOrdersData(newOrders)
                 })
                 .catch(error => {
-                    console.error('Error...')
+                    console.error('Error fetching customer data:', error)
+                    setOrdersData(dummyData)
                 })
-            }
         })
         .catch(error => {
-            ordersData = dummyData
+            console.error('Error fetching orders data:', error)
+            setOrdersData(dummyData)
         })
-    }, [])
+    }, [userContext.auth.jwtToken])
 
     return (
         <Fragment>
