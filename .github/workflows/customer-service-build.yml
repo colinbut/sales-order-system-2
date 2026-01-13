@@ -1,0 +1,30 @@
+name: Customer Service Build
+
+on:
+  push:
+    paths:
+      - 'customer-service/**'
+      - '.github/workflows/customer-service-build.yml'
+  pull_request:
+    paths:
+      - 'customer-service/**'
+      - '.github/workflows/customer-service-build.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build Customer Service
+        run: |
+          set -e
+          cd customer-service
+          mvn clean install -U --fail-at-end

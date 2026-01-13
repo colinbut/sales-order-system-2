@@ -1,0 +1,30 @@
+name: Product Service Build
+
+on:
+  push:
+    paths:
+      - 'product-service/**'
+      - '.github/workflows/product-service-build.yml'
+  pull_request:
+    paths:
+      - 'product-service/**'
+      - '.github/workflows/product-service-build.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build Product Service
+        run: |
+          set -e
+          cd product-service
+          mvn clean install

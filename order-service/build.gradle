@@ -1,43 +1,70 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
 plugins {
-	id 'org.springframework.boot' version '2.2.5.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'org.springframework.boot' version '3.2.3'
+	id 'io.spring.dependency-management' version '1.1.4'
 	id 'java'
 }
 
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+
 group = 'com.mycompany'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = '21'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
 
 
 repositories {
 	mavenCentral()
 }
 
-def swaggerVersion = '2.9.2'
-def jwtVersion = '0.9.1'
-def restAssuredVersion = '3.3.0'
-def testContainersSpringBoot = '1.43'
+def jwtVersion = '0.11.5'
+def restAssuredVersion = '5.3.0'
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	implementation('org.springframework.boot:spring-boot-starter-data-mongodb') {
+		exclude group: 'org.mongodb', module: 'mongodb-driver-sync'
+	}
+	implementation 'org.mongodb:mongodb-driver-sync:4.11.1'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation "io.springfox:springfox-swagger2:$swaggerVersion"
-	implementation "io.springfox:springfox-swagger-ui:$swaggerVersion"
-	implementation "io.jsonwebtoken:jjwt:$jwtVersion"
+	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
+	implementation "io.jsonwebtoken:jjwt-api:$jwtVersion"
+	runtimeOnly "io.jsonwebtoken:jjwt-impl:$jwtVersion"
+	runtimeOnly "io.jsonwebtoken:jjwt-jackson:$jwtVersion"
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testImplementation 'org.springframework.security:spring-security-test'
-	testImplementation "io.rest-assured:rest-assured:$restAssuredVersion"
-	testImplementation "io.rest-assured:json-path:$restAssuredVersion"
+	testImplementation("io.rest-assured:rest-assured:$restAssuredVersion") {
+		exclude group: 'org.codehaus.groovy', module: 'groovy'
+		exclude group: 'org.codehaus.groovy', module: 'groovy-xml'
+	}
+	testImplementation("io.rest-assured:json-path:$restAssuredVersion") {
+		exclude group: 'org.codehaus.groovy', module: 'groovy-json'
+	}
 	testImplementation "io.rest-assured:xml-path:$restAssuredVersion"
+	testImplementation "org.apache.groovy:groovy-all:4.0.12"
 	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation "org.springframework.cloud:spring-cloud-starter:2.2.2.RELEASE"
-	testCompile "com.playtika.testcontainers:embedded-mongodb:$testContainersSpringBoot"
+	testImplementation "org.springframework.cloud:spring-cloud-starter:4.1.2"
+	testImplementation "org.testcontainers:junit-jupiter:1.19.4"
+	testImplementation "org.testcontainers:mongodb:1.19.4"
 }
 
 test {
 	useJUnitPlatform()
+	testLogging {
+		events "passed", "failed", "skipped", "standardOut", "standardError"
+	}
 }

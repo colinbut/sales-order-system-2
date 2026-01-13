@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from 'react'
+import React, { Fragment, useContext, useEffect, useState } from 'react'
 import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
 import MaterialTable from 'material-table'
@@ -15,11 +15,10 @@ const Customer = props => {
     let customer = props.history.location.state.customer
     let userContext = useContext(UserContext)
     
-    let dummyData = []
-    let ordersData = []
+    const [ordersData, setOrdersData] = useState([])
 
     useEffect(() => {
-        ordersData = []
+        const dummyData = []
         fetch(process.env.REACT_APP_ORDER_SERVICE + "/orders?customerId=" + customer.id, {
             method: 'GET',
             headers: {
@@ -34,19 +33,21 @@ const Customer = props => {
         })
         .then(data => {
             let address = customer.address
+            const newOrders = []
             for (let i = 0; i < data.length; i++) {
-                ordersData.push({
+                newOrders.push({
                     id: data[i].id,
                     customer: customer.name + ", " + customer.dob + ", " + customer.email,
                     address: address
                 })
             }
-            console.log(ordersData)
+            setOrdersData(newOrders)
+            console.log(newOrders)
         })
         .catch(error => {
-            ordersData = dummyData
+            setOrdersData(dummyData)
         })
-    })
+    }, [customer.id, userContext.auth.jwtToken, customer.address, customer.dob, customer.email, customer.name])
 
     return (
         <Fragment>

@@ -2,6 +2,7 @@ version: "3"
 services:
   user-service:
     build: ./user-service
+    platform: linux/amd64
     container_name: user-service
     expose:
       - "8080"
@@ -12,6 +13,7 @@ services:
   
   customer-service:
     build: ./customer-service
+    platform: linux/amd64
     container_name: customer-service
     expose:
       - "8081"
@@ -26,6 +28,7 @@ services:
 
   customer-db-mysql:
     image: mysql:8
+    platform: linux/amd64
     container_name: customer-service-mysql
     ports:
       - "3306:3306"
@@ -37,6 +40,7 @@ services:
 
   order-service:
     build: ./order-service
+    platform: linux/amd64
     container_name: order-service
     expose:
       - "8082"
@@ -51,6 +55,7 @@ services:
 
   order-service-db-mongodb:
     image: mongo
+    platform: linux/amd64
     container_name: order-service-mongodb
     ports:
       - "27017:27017"
@@ -59,6 +64,7 @@ services:
 
   product-service:
     build: ./product-service
+    platform: linux/amd64
     container_name: product-service
     expose:
       - "8083"
@@ -73,6 +79,7 @@ services:
 
   product-service-db-redis:
     image: redis
+    platform: linux/amd64
     container_name: product-service-redis
     command: [ "redis-server", "--protected-mode", "no" ]
     ports:
@@ -82,6 +89,7 @@ services:
 
   sales-order-system-client:
     build: ./sales-order-system
+    platform: linux/amd64
     container_name: sales-order-system-app
     expose:
     - "80"

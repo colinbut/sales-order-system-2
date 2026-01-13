@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<!-- Dummy comment to trigger workflow -->
 		<swagger.version>2.9.2</swagger.version>
 		<jwt.version>0.9.1</jwt.version>
 		<rest.assured.version>3.3.0</rest.assured.version>
@@ -80,6 +81,16 @@
 			<artifactId>rest-assured</artifactId>
 			<version>${rest.assured.version}</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy-xml</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -87,12 +98,26 @@
 			<artifactId>json-path</artifactId>
 			<version>${rest.assured.version}</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy-json</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>xml-path</artifactId>
 			<version>${rest.assured.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>3.0.9</version>
+			<type>pom</type>
 			<scope>test</scope>
 		</dependency>
 

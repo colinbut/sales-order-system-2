@@ -1,0 +1,32 @@
+name: Sales Order System Client Build
+
+on:
+  push:
+    paths:
+      - 'sales-order-system/**'
+      - '.github/workflows/sales-order-system-build.yml'
+  pull_request:
+    paths:
+      - 'sales-order-system/**'
+      - '.github/workflows/sales-order-system-build.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: 'sales-order-system/package-lock.json'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: sales-order-system
+
+      - name: Build
+        run: CI=false npm run build
+        working-directory: sales-order-system

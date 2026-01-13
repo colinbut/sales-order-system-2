@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useContext } from 'react'
+import React, { Fragment, useEffect, useContext, useState } from 'react'
 import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
 import PhotoFilterIcon from '@material-ui/icons/PhotoFilter'
@@ -15,38 +15,33 @@ const dummyData = [
     {name: 'Apple iPhone 11', price: 699.99},
 ]
 
-let itemData = []
-
 const Items = props => {
     const userContext = useContext(UserContext)
     console.log("Redirect:?", props.history.location)
     
-    useEffect(() => {
-        if (itemData.length === 0 ) {
-            fetch(process.env.REACT_APP_PRODUCT_SERVICE + "/item/list", {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + userContext.auth.jwtToken
-                }    
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json()
-                }
-                throw new Error('Failed to retrieve items from server')
-            })
-            .then(data => {
-                console.log("Data", data)
-                itemData = data
-            })
-            .catch(error => {
-                itemData = dummyData
-            })
-        } else {
-            console.log("Already have items data not going to fetch again...")
-        }
+    const [itemData, setItemData] = useState([])
 
-    }, [])
+    useEffect(() => {
+        fetch(process.env.REACT_APP_PRODUCT_SERVICE + "/item/list", {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + userContext.auth.jwtToken
+            }    
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            }
+            throw new Error('Failed to retrieve items from server')
+        })
+        .then(data => {
+            console.log("Data", data)
+            setItemData(data)
+        })
+        .catch(error => {
+            setItemData(dummyData)
+        })
+    }, [userContext.auth.jwtToken])
 
     return (
         <Fragment>

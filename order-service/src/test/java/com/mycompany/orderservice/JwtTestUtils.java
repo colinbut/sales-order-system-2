@@ -3,19 +3,22 @@ package com.mycompany.orderservice;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 
 public final class JwtTestUtils {
 
-    public static String getJwtRequestHeader() {
-        return generateToken(new TestUserDetails());
+    public static String getJwtRequestHeader(String jwtSecret) {
+        return generateToken(new TestUserDetails(), jwtSecret);
     }
 
-    private static String generateToken(UserDetails userDetails) {
+    private static String generateToken(UserDetails userDetails, String jwtSecret) {
         Claims claims = Jwts.claims();
         claims.put("scopes", userDetails.getAuthorities());
         return Jwts.builder()
@@ -24,7 +27,7 @@ public final class JwtTestUtils {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setIssuer("Sales Order System")
                 .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 60 * 1000))
-                .signWith(SignatureAlgorithm.HS512, "userservice")
+                .signWith(Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtSecret)), SignatureAlgorithm.HS512)
                 .compact();
     }
 
